@@ -1,14 +1,17 @@
 from math import floor
+from random import random
 import cv2
 import pyvirtualcam
 from pyvirtualcam import PixelFormat
 import numpy as np
 
 def to_ascii(img):
-    chars = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1[]?-_+~<>i!lI;:,^`'. "
+    chars = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft()[]-_+~<>,^`'. "
+    bg_chars = "!|Iil1?\/;:"
     font = cv2.FONT_HERSHEY_PLAIN
     font_scale = 0.6
-    font_color = (255, 255, 255)
+    font_color = (0, 255, 65)
+    background_color = (0, 59, 0)
     thickness = 1
 
     font_size = floor(15 * font_scale)
@@ -23,7 +26,7 @@ def to_ascii(img):
     small = cv2.bitwise_not(small)
 
     # create result image
-    result = np.zeros((720, 1280), np.uint8)
+    result = np.zeros((720, 1280, 3), np.uint8)
 
     # go through each pixel in the input image
     for i in range(0, reduced_height):
@@ -33,8 +36,14 @@ def to_ascii(img):
             # get the char corresponding to the pixel value
             char_index = round(np.interp(pixel, [0, 255], [0, len(chars)-1]))
             char = chars[char_index]
-            # put the char in the result image
-            result = cv2.putText(result, char, (j*font_size, (i*font_size)+font_size), font, font_scale, font_color, thickness, cv2.LINE_AA)
+
+            if char == " ":
+                bg_char_index = round(random() * (len(bg_chars)-1))
+                char = bg_chars[bg_char_index]
+                result = cv2.putText(result, char, (j*font_size, (i*font_size)+font_size), font, font_scale, background_color, thickness, cv2.LINE_AA)
+            else:
+                # put the char in the result image
+                result = cv2.putText(result, char, (j*font_size, (i*font_size)+font_size), font, font_scale, font_color, thickness, cv2.LINE_AA)
 
     return result
 
@@ -42,7 +51,7 @@ def to_ascii(img):
 hw_cam = cv2.VideoCapture(0)
 
 # set up output camera
-cam = pyvirtualcam.Camera(width=1280, height=720, fps=20, device="OBS Virtual Camera", fmt=PixelFormat.GRAY)
+cam = pyvirtualcam.Camera(width=1280, height=720, fps=20, device="OBS Virtual Camera", fmt=PixelFormat.RGB)
 
 while(True):
 

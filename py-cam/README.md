@@ -11,7 +11,7 @@ Experimented with **cv2** for pulling and manipulating webcam frames, and then s
 | `canny_edge_det` | Experiments with the CV2 Canny edge detection method. The algorithm params are adjustable with sliders |
 | `cam_capture` | How can webcam iamges be captured with CV2 |
 | `use_obs_vcam` | How can you send custom frames to an OBS Virtual Cam with pyvirtualcam |
-| **`main`** | - Gets the current webcam frame </br> - Applies Canny edge detection </br> - ASCII-fies it </br> - Sends the output to the OBS Virtual Cam|
+| `ascii-cam` | - Gets the current webcam frame </br> - Applies Canny edge detection </br> - ASCII-fies it </br> - Sends the output to the OBS Virtual Cam|
 
 To use the OBS Virtual Cam, all you need to do is
 1. Install OBS

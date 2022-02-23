@@ -56,7 +56,7 @@ while(True):
     # blurred = cv2.GaussianBlur(greyscale, (3, 3), 1)
 
     # canny edge detection
-    canny = cv2.Canny(image=greyscale, threshold1=40, threshold2=80)
+    canny = cv2.Canny(image=greyscale, threshold1=20, threshold2=60)
 
     # resize the image to 1280x720
     resized = cv2.resize(canny, (1280, 720), interpolation=cv2.INTER_AREA)

@@ -1,0 +1,1 @@
+A series of excercies, following the [Coding Train series on Neural Networks](https://www.youtube.com/playlist?list=PLRqwX-V7Uu6aCibgK1PTWWu9by6XFdCfh)

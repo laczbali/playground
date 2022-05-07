@@ -1,6 +1,6 @@
-from tictacboard import TicTacBoard
+from connectboard import ConnectBoard
 
-board = TicTacBoard(4, 5)
+board = ConnectBoard(4, 5)
 board.terminal_clear_rowoffset = 1
 board.show()
 

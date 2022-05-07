@@ -19,7 +19,7 @@ class TerminalColors:
     UNDERLINE = '\033[4m'
     DEFAULT = '\033[0m'
 
-class TicTacBoard:
+class ConnectBoard:
 
     def __init__(self, rows, cols, threshold=3):
         self.rows = rows

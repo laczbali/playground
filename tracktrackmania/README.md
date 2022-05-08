@@ -1,0 +1,1 @@
+The goal of this excercise is to gather info on a Trackmania Nations Forever session, that could be fed into a neural network.

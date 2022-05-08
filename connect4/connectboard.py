@@ -1,4 +1,4 @@
-import sys
+import os
 from enum import Enum
 
 class GameState(Enum):
@@ -21,15 +21,13 @@ class TerminalColors:
 
 class ConnectBoard:
 
-    def __init__(self, rows, cols, threshold=3):
+    def __init__(self, rows=6, cols=7, threshold=4):
         self.rows = rows
         self.cols = cols
         self.board = [[0 for x in range(cols)] for y in range(rows)]
+        self.threshold = threshold
 
         self.state = GameState.ACTIVE_P1_NEXT
-
-        self.terminal_is_dirty = False
-        self.terminal_clear_rowoffset = 0
 
     def make_move(self, col, player, auto_show=True):
         """
@@ -72,25 +70,98 @@ class ConnectBoard:
         if auto_show:
             self.show()
 
-        return self.check_if_over()
+        return self.check_if_over(player, row_to_fill, col)
 
-    def check_if_over(self):
+    def check_if_over(self, player, new_row, new_col):
         """
         Checks if the game is over. Returns True if the game is over, False otherwise.
         """
-        pass
+        # check in vertical direction (no need to check above the new piece)
+        sum = player
+        for idx in range(new_row + 1, self.rows):
+            cell = self.board[idx][new_col]
+            if cell != player:
+                break
+            sum += cell
+        if abs(sum) >= self.threshold:
+            self.state = GameState.END_P1 if player == 1 else GameState.END_P2
+            return True
+
+        # check in horizontal direction
+        sum = player
+        for idx in range(new_col + 1, self.cols):
+            # check right
+            cell = self.board[new_row][idx]
+            if cell != player:
+                break
+            sum += cell
+        for idx in range(new_col - 1, -1, -1):
+            # check left
+            cell = self.board[new_row][idx]
+            if cell != player:
+                break
+            sum += cell
+        if abs(sum) >= self.threshold:
+            self.state = GameState.END_P1 if player == 1 else GameState.END_P2
+            return True
+
+        # check diagonals
+        sum_tl_br = player # \
+        sum_bl_tr = player # /
+        for idx, row in enumerate(range(new_row + 1, self.rows)):
+            # check down
+            cell_left = None
+            cell_right = None
+            if new_col + idx + 1 < self.cols:
+                cell_right = self.board[row][new_col + idx + 1]
+                if cell_right == player:
+                    sum_tl_br += cell_right
+            if new_col - idx - 1 >= 0:
+                cell_left = self.board[row][new_col - idx - 1]
+                if cell_left == player:
+                    sum_bl_tr += cell_left
+            if cell_left != player and cell_right != player:
+                break
+        for idx, row in enumerate(range(new_row - 1, -1, -1)):
+            # check up
+            cell_left = None
+            cell_right = None
+            if new_col + idx + 1 < self.cols:
+                cell_right = self.board[row][new_col + idx + 1]
+                if cell_right == player:
+                    sum_bl_tr += cell_right
+            if new_col - idx - 1 >= 0:
+                cell_left = self.board[row][new_col - idx - 1]
+                if cell_left == player:
+                    sum_tl_br += cell_left
+            if cell_left != player and cell_right != player:
+                break
+        if abs(sum_tl_br) >= self.threshold or abs(sum_bl_tr) >= self.threshold:
+            self.state = GameState.END_P1 if player == 1 else GameState.END_P2
+            return True
+
+        # check for draw (no more empty cells -> rows[0] is all non 0)
+        if self.board[0].count(0) == 0:
+            self.state = GameState.END_DRAW
+            return True
+
+        # game is not over
+        return False
+        
+    def reset(self):
+        """
+        Resets the board to the initial state
+        """
+
+        self.board = [[0 for x in range(self.cols)] for y in range(self.rows)]
+        self.state = GameState.ACTIVE_P1_NEXT
 
     def show(self, auto_clear=True):
-        # restore cursor position
-        if self.terminal_is_dirty and auto_clear:
-            sys.stdout.write(f"\x1b[{self.rows + 4 + self.terminal_clear_rowoffset}A")
-            sys.stdout.flush()
-
-        self.terminal_is_dirty = True
+        # clear terminal
+        if auto_clear:
+            os.system('cls||clear')
 
         # print cols indexes
-        print("")
-        print("")
         print("  ", end="")
         for idx in range(self.cols):
             print(idx, end=" ")
@@ -107,3 +178,26 @@ class ConnectBoard:
             print("")
 
         print("")
+
+    def as_array(self):
+        """
+        Returns the current board as a 1D array
+        """
+
+        board_array = []
+        for row in self.board:
+            board_array += row
+        return board_array
+
+    def valid_moves(self):
+        """
+        Returns a list of valid moves (columns)
+        """
+
+        # check which columns are empty in the first row
+        valid_moves = []
+        for idx, col in enumerate(self.board[0]):
+            if col == 0:
+                valid_moves.append(idx)
+
+        return valid_moves

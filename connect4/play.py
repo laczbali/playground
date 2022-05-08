@@ -1,6 +1,6 @@
 from connectboard import ConnectBoard
 
-board = ConnectBoard(4, 5)
+board = ConnectBoard()
 board.terminal_clear_rowoffset = 1
 board.show()
 
@@ -15,3 +15,5 @@ while not over:
 
     col = int(input("Player 2 enter a column: "))
     over = board.make_move(col, -1)
+
+print(board.as_array())

@@ -24,6 +24,8 @@ namespace grpc_backend.Services
 			int TIMEOUTSEC = request.Timeout;
 			for (int i = 0; i < TIMEOUTSEC; i++)
 			{
+				if (context.CancellationToken.IsCancellationRequested) break;
+
 				await responseStream.WriteAsync(new TimestampReply
 				{
 					Timestamp = ((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds()

@@ -4,18 +4,23 @@ option csharp_namespace = "grpc_backend";
 
 package greet;
 
-// The greeting service definition.
 service Greeter {
-  // Sends a greeting
   rpc SayHello (HelloRequest) returns (HelloReply);
+  rpc SystemTime (TimeStreamRequest) returns (stream TimestampReply);
 }
 
-// The request message containing the user's name.
 message HelloRequest {
   string name = 1;
 }
 
-// The response message containing the greetings.
 message HelloReply {
   string message = 1;
+}
+
+message TimeStreamRequest {
+	int32 timeout = 1;
+}
+
+message TimestampReply {
+	int64 timestamp = 1;
 }

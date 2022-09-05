@@ -37,7 +37,7 @@ function startStream() {
   timeStream = client.systemTime(request);
   
   timeStream.on('data', function(response) {
-    console.log(response.getTimestamp());
+    document.getElementById("server-time-out").value = response.getTimestamp();
   });
 
   timeStream.on('status', function(status) {

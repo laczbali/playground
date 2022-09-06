@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option csharp_namespace = "grpc_app";
+
+package chat;
+
+service Chatter {
+  rpc SendMessage (MessageRequest) returns (Empty);
+  rpc GetMessages (Empty) returns (stream HistoryReply);
+}
+
+message Empty {}
+
+message MessageRequest {
+  string username = 1;
+  string message = 2;
+}
+
+message HistoryReply {
+	repeated MessageRequest history = 1;
+}

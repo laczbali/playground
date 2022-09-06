@@ -13,47 +13,76 @@
 <body>
 
   <div class="container">
-    <div class="main">
+    <div class="row">
 
-      <div class="mb-5">
-        <h1>Say Hello</h1>
-        <div class="content">
-          <div>
-            <label for="say-hello-input">My name is</label>
-          </div>
-          <div>
-            <input id="say-hello-input" type="text" class="" placeholder="Enter your name">
-            <button class="btn bnt-sm btn-primary" id="say-hello-btn">Send</button>
+      <!-- ------------------------- -->
+      <div class="col-sm-6">
+        <h1>Greet Service</h1>
+        <div class="row">
+
+          <!-- say hello -->
+          <div class="col-12">
+            <h2>Say Hello</h2>
+            <div class="content">
+              <div>
+                <label for="say-hello-input">My name is</label>
+              </div>
+              <div>
+                <input id="say-hello-input" type="text" class="" placeholder="Enter your name">
+                <button class="btn bnt-sm btn-primary" id="say-hello-btn">Send</button>
+              </div>
+
+              <div>
+                <label for="say-hello-input">The server says</label>
+              </div>
+              <div>
+                <input id="say-hello-output" type="text" class="" disabled>
+              </div>
+            </div>
           </div>
 
-          <div>
-            <label for="say-hello-input">The server says</label>
+          <!-- stream server time -->
+          <div class="col-12">
+            <h2>Stream the Server Time</h2>
+            <div class="content">
+              <div>
+                <label for="server-time-timeout">Set stream timeout</label>
+              </div>
+              <div>
+                <input id="server-time-timeout" type="number">
+                <button id="server-time-start" class="btn btn-sm btn-primary">Start</button>
+                <button id="server-time-stop" hidden class="btn btn-sm btn-danger">Stop</button>
+              </div>
+              <div>
+                <label for="server-time-out">Current server time</label>
+              </div>
+              <div>
+                <input type="number" id="server-time-out" disabled>
+              </div>
+            </div>
           </div>
-          <div>
-            <input id="say-hello-output" type="text" class="" disabled>
-          </div>
+
         </div>
       </div>
 
-      <div>
-        <h1>Stream the Server Time</h1>
-        <div class="content">
-          <div>
-            <label for="server-time-timeout">Set stream timeout</label>
+      <!-- ------------------------- -->
+
+      <div class="col-sm-6">
+        <h1>Chat Service</h1>
+        <div class="row">
+          <div class="col-12">
+            <textarea id="chat-textarea" style="width: 100%; min-height: 200px;" disabled></textarea>
           </div>
-          <div>
-            <input id="server-time-timeout" type="number">
-            <button id="server-time-start" class="btn btn-sm btn-primary">Start</button>
-            <button id="server-time-stop" hidden class="btn btn-sm btn-danger">Stop</button>
-          </div>
-          <div>
-            <label for="server-time-out">Current server time</label>
-          </div>
-          <div>
-            <input type="number" id="server-time-out" disabled>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <input type="text" id="chat-username" placeholder="Username">
+            <input type="text" id="chat-message" placeholder="Message">
+            <button class="btn btn-sm btn-primary" id="chat-send">Send</button>
           </div>
         </div>
       </div>
+      <!-- ------------------------- -->
 
     </div>
   </div>

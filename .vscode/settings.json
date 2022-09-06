@@ -1,5 +1,13 @@
 {
     "files.exclude": {
-        "**/__pycache__": true
+        "**/__pycache__": true,
+        "**/node_modules": true,
+
+        // project-dependent
+        "grpc/grpc_frontend/dist": true,
+        "grpc/grpc_frontend/protodefs": false,
+        "grpc/**/.vs": true,
+        "grpc/**/bin": true,
+        "grpc/**/obj": true
     }
 }

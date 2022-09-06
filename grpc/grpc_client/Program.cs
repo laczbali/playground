@@ -1,18 +1,18 @@
-﻿using System.Threading.Tasks;
+﻿using Grpc.Core;
 using Grpc.Net.Client;
+using grpc_app;
 
+using var channel = GrpcChannel.ForAddress("http://localhost:5116");
+var client = new Nums.NumsClient(channel);
 
-namespace grpc_client
+var stream = client.GetEvenNumbers(new NumberRequest { LowerLimit = 0, UpperLimit = 10});
+var numcount = 0;
+await foreach (var incomingResponse in stream.ResponseStream.ReadAllAsync())
 {
-	public class Program
-	{
-		static async Task Main(string[] args)
-		{
-			using var channel = GrpcChannel.ForAddress("http://localhost:5024");
-			var client = new Greeter.GreeterClient(channel);
+	Console.WriteLine(incomingResponse.Num);
 
-			var reply = await client.SayHelloAsync(new HelloRequest { Name = "Balazs"});
-			Console.WriteLine($"Server says: [ {reply.Message} ]");
-		}	
-	}
+	numcount++;
+	if (numcount == 5) break;
 }
+
+stream.Dispose();

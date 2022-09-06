@@ -52,4 +52,4 @@ static_resources:
                 address:
                   socket_address:
                     address: host.docker.internal
-                    port_value: 5024
+                    port_value: 5178

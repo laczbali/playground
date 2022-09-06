@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option csharp_namespace = "grpc_app";
+
+package numbers;
+
+service Nums {
+  rpc GetEvenNumbers (NumberRequest) returns (stream NumberReply);
+  rpc GetNumbers (NumberRequest) returns (stream NumberReply);
+}
+
+message NumberRequest {
+  int32 lowerLimit = 1;
+  int32 upperLimit = 2;
+}
+
+message NumberReply {
+  int32 num = 1;
+}

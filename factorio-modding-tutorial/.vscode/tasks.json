@@ -1,0 +1,15 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "( COPY-TO-MODS )",
+            "type": "shell",
+            "command": "Remove-Item -Path $env:APPDATA\\factorio\\mods\\fire-armor -Recurse -ErrorAction SilentlyContinue; Copy-Item .\\fire-armor $env:APPDATA\\factorio\\mods -Recurse",
+            "options": {
+                "statusbar": {
+                    "color": "#00FF00"
+                }
+            }
+        },
+    ]
+}
